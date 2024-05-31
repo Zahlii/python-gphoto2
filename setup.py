@@ -140,9 +140,13 @@ mod_src_dir = 'swig-gp' + '_'.join(map(str, swigged_version))
 mod_src_dir = os.path.join('src', mod_src_dir)
 package_dir['gphoto2'] = mod_src_dir
 
-extra_compile_args = [
-    '-O3', '-Wno-unused-variable', '-Wno-unused-but-set-variable',
-    '-Wno-unused-label', '-Wno-strict-prototypes']
+if os.name != 'nt':
+    extra_compile_args = [
+        '-O3', '-Wno-unused-variable', '-Wno-unused-but-set-variable',
+        '-Wno-unused-label', '-Wno-strict-prototypes']
+else:
+    extra_compile_args = ['-O3']
+
 if 'PYTHON_GPHOTO2_STRICT' in os.environ:
     extra_compile_args.append('-Werror')
 define_macros = [('GPHOTO2_VERSION',
